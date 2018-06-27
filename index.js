@@ -47,7 +47,7 @@ const upServers = (serversToStart) => {
   const servers = config.get('servers');
   const startServersPromises = serversToStart.map((serverToStart) => {
     console.log(`Server ${chalk.cyan(servers[serverToStart].name)} is listening...`);
-    return exec(`npm start --prefix ${servers[serverToStart].directory}`);
+    return exec(`npm start --prefix ${servers[serverToStart].directory} > /tmp/${serverToStart}.log`);
   });
 
   return Promise.all(startServersPromises);
