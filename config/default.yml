@@ -1,0 +1,13 @@
+servers:
+  api-gateway:
+    name: API Gateway
+    directory: /home/guille/Easytech/hospital-aleman-servers/api-gateway
+  authentication:
+    name: Autenticación
+    directory: /home
+  turnos:
+    name: Turnos
+    directory: /home/guille/Easytech/hospital-aleman-servers/backend-turnos
+  ords-proxy:
+    name: Proxy ORDS
+    directory: /home

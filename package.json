@@ -1,0 +1,28 @@
+{
+  "name": "up-servers-script",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "description": "Script for up and down NodeJS servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillermo Recalde",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.15.1",
+    "config": "^1.30.0",
+    "eslint": "^5.0.1",
+    "inquirer": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  }
+}
