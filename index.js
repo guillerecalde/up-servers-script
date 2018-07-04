@@ -7,17 +7,7 @@ const util = require('util');
 const spawn = util.promisify(require('child_process').spawn);
 
 const upServersChoice = () => {
-  const prompts = [
-    {
-      type: 'checkbox',
-      name: 'servers',
-      message: 'What servers do you want to start?',
-      choices: getServers
-    }
-  ];
-
-  inquirer
-    .prompt(prompts)
+  selectServers()
     .then((answers) => {
       return upServers(answers.servers);
     })
@@ -29,8 +19,30 @@ const upServersChoice = () => {
     });
 };
 
-const downServersChoice = () => {
-  console.log(chalk.green('Stopping servers...'));
+const upServersDevelopmentChoice = () => {
+  selectServers()
+    .then((answers) => {
+      return upDevelopmentServers(answers.servers);
+    })
+    .then((stdOuts) => {
+      console.log(chalk.green('All servers have been started successfully!'));
+    })
+    .catch((error) => {
+      console.log(chalk.red(error));
+    });
+};
+
+const selectServers = () => {
+  const prompts = [
+    {
+      type: 'checkbox',
+      name: 'servers',
+      message: 'What servers do you want to start?',
+      choices: getServers
+    }
+  ];
+
+  return inquirer.prompt(prompts);
 };
 
 const getServers = () => {
@@ -44,10 +56,18 @@ const getServers = () => {
 };
 
 const upServers = (serversToStart) => {
-  const servers = config.get('servers');
-  const startServersPromises = serversToStart.map((serverToStart) => {
-    console.log(`Server ${chalk.cyan(servers[serverToStart].name)} is listening...`);
-    return spawn('npm', ['start', '--prefix', servers[serverToStart].directory], { stdio: 'inherit' });
+  return executeScriptOnServers('start', serversToStart);
+};
+
+const upDevelopmentServers = (serversToStart) => {
+  return executeScriptOnServers('start:dev', serversToStart);
+};
+
+const executeScriptOnServers = (script, servers) => {
+  const availableServers = config.get('servers');
+  const startServersPromises = servers.map((server) => {
+    console.log(`Server ${chalk.cyan(availableServers[server].name)} is listening...`);
+    return spawn('npm', ['run', script, '--prefix', availableServers[server].directory], { stdio: 'inherit' });
   });
 
   return Promise.all(startServersPromises);
@@ -56,13 +76,13 @@ const upServers = (serversToStart) => {
 program
   .version('1.0.0')
   .option('-u, --up', 'up servers')
-  .option('-d, --down', 'down servers')
+  .option('-d, --dev', 'up servers on development mode')
   .parse(process.argv);
 
 if (program.up) {
   upServersChoice();
 }
 
-if (program.down) {
-  downServersChoice();
+if (program.dev) {
+  upServersDevelopmentChoice();
 }

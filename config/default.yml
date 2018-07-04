@@ -4,10 +4,10 @@ servers:
     directory: /home/guille/Easytech/hospital-aleman-servers/api-gateway
   authentication:
     name: Autenticación
-    directory: /home
+    directory: /home/guille/Easytech/hospital-aleman-servers/authentication
   turnos:
     name: Turnos
     directory: /home/guille/Easytech/hospital-aleman-servers/backend-turnos
   ords-proxy:
     name: Proxy ORDS
-    directory: /home
+    directory: /home/guille/Easytech/hospital-aleman-servers/ords-proxy
