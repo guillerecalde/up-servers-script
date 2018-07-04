@@ -4,7 +4,7 @@ const config = require('config');
 const inquirer = require('inquirer');
 const util = require('util');
 
-const exec = util.promisify(require('child_process').exec);
+const spawn = util.promisify(require('child_process').spawn);
 
 const upServersChoice = () => {
   const prompts = [
@@ -47,7 +47,7 @@ const upServers = (serversToStart) => {
   const servers = config.get('servers');
   const startServersPromises = serversToStart.map((serverToStart) => {
     console.log(`Server ${chalk.cyan(servers[serverToStart].name)} is listening...`);
-    return exec(`npm start --prefix ${servers[serverToStart].directory} > /tmp/${serverToStart}.log`);
+    return spawn('npm', ['start', '--prefix', servers[serverToStart].directory], { stdio: 'inherit' });
   });
 
   return Promise.all(startServersPromises);
